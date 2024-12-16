@@ -54,13 +54,13 @@ namespace PracticalTask
             int currentSeed = Seed;
             int cycleLength = 0;
 
-            while (!seenNumbers.Contains(currentSeed))
+            while (!seenNumbers.Contains(Seed))
             {
-                seenNumbers.Add(currentSeed);
-                currentSeed = (Multiplier * currentSeed + Increment) % Modulus;
+                seenNumbers.Add(Seed);
+
+                Seed = (Multiplier * Seed + Increment) % Modulus;
                 cycleLength++;
 
-                // If the length exceeds Modulus, break to avoid infinite loop
                 // untill first unique values "1st cycle"
                 if (cycleLength > Modulus)
                 {
@@ -73,26 +73,27 @@ namespace PracticalTask
         // Algorithm[2] - Cycle Length
         public int CalculateLenOfCycle()
         {
-            // fatma
+            int k = Modulus - 1;
+
             if (Modulus % 2 == 0 && Increment != 0)
             {
                 // Cond#1: m is power of 2, c ≠ 0
-                if (GreatestCommonDivisor(Increment, Modulus) == 1 && Multiplier % 4 == 1) // c & m is relatively primes => y3ni akbr rakm by2blo el 2sma 3leeh hwa 1
+                if (GreatestCommonDivisor(Increment, Modulus) == 1 && (4 * k  +1) == Multiplier) // c & m is relatively primes => y3ni akbr rakm by2blo el 2sma 3leeh hwa 1
                 {
                     // 12 13
-                    return Modulus; // m
+                    return Modulus;
                 }
             }
-            // gehad & gui
             else if (Modulus % 2 == 0 && Increment == 0)
             {
+
                 // Cond#2: m is power of 2, c = 0
-                if (Seed % 2 == 1 && (Multiplier - 1) % 8 == 0) // seed is odd
+
+                if (Seed % 2 == 1 && ((5 + 8 * k) == Multiplier) || (3 + 8 * k) == Multiplier) // seed is odd
                 {
                     return Modulus / 4; // m/4
                 }
             }
-            // nada
             else if (IsPrime(Modulus) && Increment == 0)
             {
                 // Cond#3: m is a prime number, c = 0
@@ -101,7 +102,7 @@ namespace PracticalTask
                     return Modulus - 1;
                 }
             }
-            // mariem
+
             return _CalculateLenOfCycle();
         }
 
